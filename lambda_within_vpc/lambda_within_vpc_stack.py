@@ -1,6 +1,7 @@
 from aws_cdk import (
     core as cdk,
-    aws_ec2 as ec2
+    aws_ec2 as ec2,
+    aws_lambda
 )
 
 
@@ -28,3 +29,9 @@ class LambdaWithinVpcStack(cdk.Stack):
                       ],
                       nat_gateways=1
                       )
+
+        lambda_function = aws_lambda.Function(self, "demoLambda",
+                                              runtime=aws_lambda.Runtime.NODEJS_14_X,
+                                              handler="lambda-handler.handler",
+                                              code=aws_lambda.Code.asset("./lambda"),
+                                              vpc=vpc)
